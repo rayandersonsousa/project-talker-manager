@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
 const generateToken = require('./utils/generateTolken');
+const { validateEmail, validatePassword } = require('./utils/validateLogin');
 
 const filePath = path.resolve('src', 'talker.json');
 
@@ -40,7 +41,7 @@ app.get('/talker/:id', async (req, res) => {
   return res.status(200).json(selectedTalker);
 });
 
-app.post('/login', async (req, res) => {
+app.post('/login', validateEmail, validatePassword, (req, res) => {
   const post = req.body;
   const token = generateToken();
   const userData = ['email', 'password'];
