@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
+const generateToken = require('./utils/generateTolken');
 
 const filePath = path.resolve('src', 'talker.json');
 
@@ -37,6 +38,17 @@ app.get('/talker/:id', async (req, res) => {
     return res.status(404).send({ message: 'Pessoa palestrante não encontrada' });
   }
   return res.status(200).json(selectedTalker);
+});
+
+app.post('/login', async (req, res) => {
+  const post = req.body;
+  const token = generateToken();
+  const userData = ['email', 'password'];
+  const gotData = userData.every((user) => user in post);
+
+  if (gotData) {
+    return res.status(200).send({ token });
+  }
 });
 
 module.exports = app;
