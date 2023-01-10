@@ -3,6 +3,14 @@ const fs = require('fs').promises;
 const path = require('path');
 const generateToken = require('./utils/generateTolken');
 const { validateEmail, validatePassword } = require('./utils/validateLogin');
+const {
+  validateAge,
+  validateName,
+  validateRate,
+  validateTalk,
+  validateToken,
+  validateWatchedAt,
+} = require('./utils/validateTalker');
 
 const filePath = path.resolve('src', 'talker.json');
 
@@ -51,5 +59,25 @@ app.post('/login', validateEmail, validatePassword, (req, res) => {
     return res.status(200).send({ token });
   }
 });
+
+app.post(
+  '/talker',
+  validateAge,
+  validateName,
+  validateRate,
+  validateTalk,
+  validateToken,
+  validateWatchedAt,
+  async (req, res) => {
+    const { name, age, talk } = req.body;
+    const response = await fs.readFile(filePath);
+    const responseJSON = JSON.parse(response);
+    const id = Number(response[response.length - 1].id) + 1;
+    const newTalker = { age, id, name, talk };
+    responseJSON.push(newTalker);
+    await fs.writeFile(filePath, JSON.stringify(responseJSON));
+    return res.status(201).send(newTalker);
+  },
+);
 
 module.exports = app;
