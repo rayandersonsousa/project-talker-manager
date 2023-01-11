@@ -62,12 +62,12 @@ app.post('/login', validateEmail, validatePassword, (req, res) => {
 
 app.post(
   '/talker',
-  validateAge,
-  validateName,
-  validateRate,
-  validateTalk,
   validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
   validateWatchedAt,
+  validateRate,
   async (req, res) => {
     const { age, name, talk } = req.body;
     const response = await fs.readFile(filePath);
@@ -82,12 +82,12 @@ app.post(
 
 app.put(
   '/talker/:id',
-  validateAge,
-  validateName,
-  validateRate,
-  validateTalk,
   validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
   validateWatchedAt,
+  validateRate,
   async (req, res) => {
     const { age, name, talk } = req.body;
     const { id } = req.params;
