@@ -69,14 +69,40 @@ app.post(
   validateToken,
   validateWatchedAt,
   async (req, res) => {
-    const { name, age, talk } = req.body;
+    const { age, name, talk } = req.body;
     const response = await fs.readFile(filePath);
     const responseJSON = JSON.parse(response);
-    const id = Number(response[response.length - 1].id) + 1;
+    const id = response.length + 1;
     const newTalker = { age, id, name, talk };
     responseJSON.push(newTalker);
     await fs.writeFile(filePath, JSON.stringify(responseJSON));
     return res.status(201).send(newTalker);
+  },
+);
+
+app.put(
+  '/talker/:id',
+  validateAge,
+  validateName,
+  validateRate,
+  validateTalk,
+  validateToken,
+  validateWatchedAt,
+  async (req, res) => {
+    const { age, name, talk } = req.body;
+    const { id } = req.params;
+    const response = await fs.readFile(filePath);
+    const responseJSON = JSON.parse(response);
+    const selectedTalker = responseJSON.find((talker) => Number(id) === talker.id);
+    if (!selectedTalker) {
+      return res.status(401).send({ message: 'O id não existe' });
+    }
+    selectedTalker.age = age;
+    selectedTalker.name = name;
+    selectedTalker.talk = talk;
+    responseJSON.push(selectedTalker);
+    await fs.writeFile(filePath, JSON.stringify(responseJSON));
+    return res.status(200).send(selectedTalker);
   },
 );
 

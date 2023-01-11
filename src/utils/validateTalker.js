@@ -1,7 +1,7 @@
 const validateAge = (req, res, next) => {
   const { age } = req.body;
 
-  if (!age) {
+  if (!age || age === '') {
     return res.status(400).send({ message: 'O campo "age" é obrigatório' });
   }
 
@@ -15,7 +15,7 @@ const validateAge = (req, res, next) => {
 const validateName = (req, res, next) => {
   const { name } = req.body;
 
-  if (!name) {
+  if (!name || name === '') {
     return res.status(400).send({ message: 'O campor "name" é obrigatório' });
   }
 
