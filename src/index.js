@@ -38,6 +38,24 @@ app.get('/talker', async (req, res) => {
   return res.status(200).json(responseJSON);
 });
 
+app.get('/talker/search', validateToken, async (req, res) => {
+  const { q } = req.query;
+  const response = await fs.readFile(filePath);
+  const responseJSON = JSON.parse(response);
+  
+  if (q === '') {
+    return res.status(200).json(responseJSON);
+  }
+
+  const selectedTalker = responseJSON.filter((talker) => talker.name.includes(q));
+
+  if (!selectedTalker) {
+    return res.status(200).send([]);
+  }
+
+  return res.status(200).send(selectedTalker);
+});
+
 app.get('/talker/:id', async (req, res) => {
   const { id } = req.params;
   const response = await fs.readFile(filePath);
