@@ -5,7 +5,7 @@ const validateAge = (req, res, next) => {
     return res.status(400).send({ message: 'O campo "age" é obrigatório' });
   }
 
-  if (age > 18) {
+  if (age < 18) {
     return res.status(400).send({ message: 'A pessoa palestrante deve ser maior de idade' });
   }
 
@@ -16,7 +16,7 @@ const validateName = (req, res, next) => {
   const { name } = req.body;
 
   if (!name || name === '') {
-    return res.status(400).send({ message: 'O campor "name" é obrigatório' });
+    return res.status(400).send({ message: 'O campo "name" é obrigatório' });
   }
 
   if (name.length < 3) {
@@ -28,12 +28,12 @@ const validateName = (req, res, next) => {
 
 const validateRate = (req, res, next) => {
   const { talk: { rate } } = req.body;
-
-  if (!rate) {
+  const scale = [1, 2, 3, 4, 5];
+  if (rate !== 0 && !rate) {
     return res.status(400).send({ message: 'O campo "rate" é obrigatório' });
   }
 
-  if (rate < 1 || rate > 5 || (!Number.isInteger(rate))) {
+  if (scale.every((sca) => sca !== Number(rate))) {
     return res.status(400).send({ message: 'O campo "rate" deve ser um inteiro de 1 à 5' });
   }
   
@@ -51,7 +51,7 @@ const validateTalk = (req, res, next) => {
 };
 
 const validateToken = (req, res, next) => {
-  const { token } = req.headers.authorization;
+  const token = req.headers.authorization;
 
   if (!token) {
     return res.status(401).send({ message: 'Token não encontrado' });
