@@ -100,4 +100,13 @@ app.put(
   },
 );
 
+app.delete('/talker/:id', validateToken, async (req, res) => {
+  const response = await fs.readFile(filePath);
+  const responseJSON = JSON.parse(response);
+  const { id } = req.params;
+  const selectedTalker = responseJSON.filter((talker) => talker.id !== Number(id));
+  await fs.writeFile(filePath, JSON.stringify(selectedTalker));
+  return res.sendStatus(204);
+});
+
 module.exports = app;
