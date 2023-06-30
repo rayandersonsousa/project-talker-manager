@@ -25,5 +25,5 @@ Nesse projeto foi desenvolvido uma aplicação de cadastro de talkers (palestran
 
 ## Habilidades aplicadas
 
-  - Desenvolver uma API de um CRUD (Create, Read, Update e Delete) de palestrantes (talkers)
-  - Desenvolver alguns endpoints que irão ler e escrever em um arquivo utilizando o módulo `fs`
+  - Desenvolver uma API de um CRUD (Create, Read, Update e Delete) de palestrantes (talkers).
+  - Desenvolver alguns endpoints que irão ler e escrever em um arquivo utilizando o módulo `fs`.
